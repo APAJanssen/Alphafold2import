@@ -3,6 +3,7 @@ from pymol import cmd
 import tempfile
 import os,math,re
 import sys
+import requests
 from pymol.cmd import _cmd, DEFAULT_ERROR, DEFAULT_SUCCESS, _raising, is_ok, is_error, is_list, space_sc, safe_list_eval, is_string, loadable
 
 def __init_plugin__(app=None):
@@ -88,7 +89,7 @@ def _fetchAF2(code, name, state, finish, discrete, multiplex, zoom, type, path,
     # bioType is the string representation of the type
     # nameFmt is the file name pattern after download
     bioType = type
-    nameFmt = '{code}.{type}'
+    nameFmt = '{code}-AF-v{version}.{type}'
     if type == 'pdb':
         pass
     elif type == 'cif':
@@ -98,22 +99,29 @@ def _fetchAF2(code, name, state, finish, discrete, multiplex, zoom, type, path,
     else:
         raise ValueError('type')
 
-    url = 'https://alphafold.ebi.ac.uk/files/AF-{code}-F1-model_v1.{type}'
+    url = 'https://alphafold.ebi.ac.uk/files/AF-{code}-F1-model_v{version}.{type}'
+   
+    versions = [9, 8, 7, 6, 5, 4, 3, 2, 1] #Dirty fix, but should hold up for the foreseeable future
+    for version in versions:
+        response = requests.get(url.format(code=code,version=version, type=bioType))
+        if response.status_code == 200:
+            latest_version = version
+            break
 
     fobj = None
     contents = None
 
     if not file or file in (1, '1', 'auto'):
-        file = os.path.join(path, nameFmt.format(code=code, type=type))
+        file = os.path.join(path, nameFmt.format(code=code, version=latest_version, type=bioType))
 
     if not is_string(file):
         fobj = file
         file = None
     elif os.path.exists(file):
         # skip downloading
-        url = '{code}.{type}'
+        url = nameFmt
 
-    url = url.format(code=code, type=type)
+    url = url.format(code=code, version=latest_version, type=bioType)
 
     try:
         contents = _self.file_read(url)
