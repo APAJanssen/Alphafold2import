@@ -4,7 +4,7 @@ PyMOL plugin to import Alphafold2 models hosted by EMBL, based on fetch-function
 The Alphafold Protein Structure Database hosted at EMBL is awesome, but it would be even better if you could load the structures directly from PyMOL, like you can for a PDB structure. Now you can, just install the attached plugin and load in your protein based on UniProtID.
 
 ## Installation instructions:
-* Download the files as .zip 
+* Download the files as .zip by clicking the green 'Code' button, and 'Download ZIP'.
 * Open PyMOL, and in the menu bar click Plugin -> Plugin Manager
 * Click the tab 'Install new plugin' and then the button 'Choose file', select the .zip
 * Accept the default plugin installation directory or change to your preference
