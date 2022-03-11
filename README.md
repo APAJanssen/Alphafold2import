@@ -11,6 +11,16 @@ The Alphafold Protein Structure Database hosted at EMBL is awesome, but it would
 
 You should now have the entry 'Import Alphafold2 entry from EMBL' in your plugin menu.
 
+If the module fails to initialize, you might have to install the `requests` module. From within the embedded PyMOL command line, run:
+```
+import subprocess 
+import sys
+subprocess.check_call([sys.executable, "-m", "pip", "install","requests"])
+```
+And retry initializing the plugin (easiest by restarting PyMOL). 
+
+If you have PyMOL installed via conda, you can also run `conda install requests` in the conda environment.
+
 ## Loading multiple entries:
 Want to use the command line or load multiple objects at once? Just type in:
 
