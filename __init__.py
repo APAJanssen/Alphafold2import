@@ -132,14 +132,14 @@ def _fetchAF2(code, name, state, finish, discrete, multiplex, zoom, type, path,
 
     except pymol.CmdException:
         if not quiet:
-            colorprinting.warning(" Warning: failed to fetch from %s" % (url,))
+            print(" Warning: failed to fetch from %s" % (url,))
         
 
     if file:
         try:
             fobj = open(file, 'wb')
         except IOError:
-            colorprinting.warning(' Warning: Cannot write to "%s"' % file)
+            print(' Warning: Cannot write to "%s"' % file)
 
     if fobj:
         fobj.write(contents)
@@ -163,7 +163,7 @@ def _fetchAF2(code, name, state, finish, discrete, multiplex, zoom, type, path,
     if not _self.is_error(r):
         return name
 
-    colorprinting.error(" Error-fetch: unable to load '%s'." % code)
+    print(" Error-fetch: unable to load '%s'." % code)
     return DEFAULT_ERROR
 
 def _multifetchAF2(code,name,state,finish,discrete,multiplex,zoom,type,path,file,quiet,_self):
