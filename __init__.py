@@ -21,7 +21,6 @@ dialog = None
 def run_plugin_gui():
     '''
     Open our custom dialog
-1991
     '''
     global dialog
 
@@ -208,7 +207,7 @@ DESCRIPTION
 
 USAGE
 
-fetch code [, name [, state [, finish [, discrete [, multiplex
+fetchAF2 code [, name [, state [, finish [, discrete [, multiplex
     [, zoom [, type [, async [, path ]]]]]]]]]
 
 ARGUMENTS
