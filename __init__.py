@@ -158,8 +158,16 @@ def _fetchAF2(code, name, state, finish, discrete, multiplex, zoom, type, path,
     elif contents and bioType in ('cif', 'cc'):
         r = _self.load_raw(contents, 'cif', name, state,
                 finish, discrete, quiet, multiplex, zoom)
-    cmd.spectrum(expression='b', palette='red_white_blue', selection=name)
-    if not _self.is_error(r):
+    #Define exact colors as used on alphafold database as hosted by EMBL
+    cmd.set_color('AF_darkblue', [0., 0.325490, 0.839216])
+    cmd.set_color('AF_lightblue', [0.396078, 0.796078, 0.952941])
+    cmd.set_color('AF_yellow', [1., 0.858824, 0.074510])
+    cmd.set_color('AF_orange', [1., 0.490196, 0.270588])
+    #Color loaded model by pLDDT value (stored in b factor column)
+    cmd.color('AF_darkblue', f'{name} & b > 90')
+    cmd.color('AF_lightblue', f'{name} & (b > 70 & b < 90 | b = 90)')
+    cmd.color('AF_yellow', f'{name} & (b > 50 & b < 70 | b = 70)')
+    cmd.color('AF_orange', f'{name} & (b < 50 | b = 50)')    if not _self.is_error(r):
         return name
 
     print(" Error-fetch: unable to load '%s'." % code)
