@@ -167,7 +167,8 @@ def _fetchAF2(code, name, state, finish, discrete, multiplex, zoom, type, path,
     cmd.color('AF_darkblue', f'{name} & b > 90')
     cmd.color('AF_lightblue', f'{name} & (b > 70 & b < 90 | b = 90)')
     cmd.color('AF_yellow', f'{name} & (b > 50 & b < 70 | b = 70)')
-    cmd.color('AF_orange', f'{name} & (b < 50 | b = 50)')    if not _self.is_error(r):
+    cmd.color('AF_orange', f'{name} & (b < 50 | b = 50)')    
+    if not _self.is_error(r):
         return name
 
     print(" Error-fetch: unable to load '%s'." % code)
