@@ -13,6 +13,22 @@ def __init_plugin__(app=None):
     from pymol.plugins import addmenuitemqt
     addmenuitemqt('Import Alphafold2 model from EMBL', run_plugin_gui)
 
+# function to get UniprotID (P31749) given SwissProtID (AKT1_HUMAN), which is easier to remember
+# Roland Dunbrack 06/28/2023) with ChatGPT's help
+def get_uniprot_accession_id(swissprot_id):
+    url = f'https://www.uniprot.org/uniprot/{swissprot_id}.txt'
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        lines = response.text.split('\n')
+        for line in lines:
+            if line.startswith("AC"):
+                accession = line.split()[1].strip(';')
+                return accession
+
+    else:
+        print("Error: HTTP request to UniProt failed with status code ", response.status_code)
+        return None
 
 # global reference to avoid garbage collection of our dialog
 dialog = None
@@ -83,7 +99,13 @@ def _fetchAF2(code, name, state, finish, discrete, multiplex, zoom, type, path,
     '''
     r = DEFAULT_ERROR
 
-
+    # added by Roland Dunbrack 06/28/2023 for support of SwissprotIDs by user (AKT1_HUMAN)
+    swissprot=None
+    if "_" in code:
+        swissprot=code
+        code=get_uniprot_accession_id(swissprot)
+        name=swissprot
+        
     # file types can be: pdb, cif
     # bioType is the string representation of the type
     # nameFmt is the file name pattern after download
