@@ -120,7 +120,7 @@ def _fetchAF2(code, name, state, finish, discrete, multiplex, zoom, type, path,
     else:
         raise ValueError('type')
 
-    url = 'https://alphafold.ebi.ac.uk/files/AF-{code}-F1-model_v{version}.{type}'
+    url = 'https://alphafold.ebi.ac.uk/files/AF-{code}-2-F1-model_v{version}.{type}'
    
     versions = [9, 8, 7, 6, 5, 4, 3, 2, 1] #Dirty fix, but should hold up for the foreseeable future
     for version in versions:
